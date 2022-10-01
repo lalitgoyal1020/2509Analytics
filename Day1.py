@@ -407,13 +407,10 @@ print()
 '''
 
 # Mutable or Changable
-
 l2
-
 l2[0]
 l2[0] = 30
 l2
-
 
 # Hetrogeneous
 type(l2[0])
@@ -423,6 +420,7 @@ type(l2[1])
 l3 = [5, 4.6, "Python", True]
 l3
 
+l3
 
 
 
