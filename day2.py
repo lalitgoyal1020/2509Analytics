@@ -155,7 +155,7 @@ teamB
 
 teamA.union(teamB)
 
-teamA.intersection(teamB)
++teamA.intersection(teamB)
 
 teamA.difference(teamB)
 
