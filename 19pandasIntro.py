@@ -387,9 +387,7 @@ grades1 = pd.DataFrame(['A','B1'])
 grades1
 
 grades1 = {'subject1': ['A1','B1','A2','A3'],'subject2': ['A2','A1','B2','B3']   }
-
 grades1
-
 df1 = pd.DataFrame(grades1)
 df1
 
