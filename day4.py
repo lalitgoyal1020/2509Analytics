@@ -662,9 +662,7 @@ plt.scatter(x,ypred)
 # Data Split
 
 from sklearn.model_selection import train_test_split
-
 xtr, xte, ytr, yte = train_test_split(x,y, test_size=0.3)
-
 x.shape
 xtr.shape, ytr.shape, xte.shape, yte.shape
 
@@ -682,30 +680,340 @@ plt.scatter(xte,yte)
 plt.scatter(xte,ypred)
 
 
+#Case Real estate.csv
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+df = pd.read_csv('24_LR//Real estate.csv')
+df =df.dropna()
+df.columns
+
+x = df.drop(['n', 'Y house price of unit area'], axis=1).values
+y = df['Y house price of unit area'].values
+x.shape
+y.shape
+
+from sklearn.model_selection import train_test_split
+xtr, xte, ytr, yte = train_test_split(x,y, test_size=0.3)
+x.shape
+xtr.shape, ytr.shape, xte.shape, yte.shape
+
+from sklearn.linear_model import LinearRegression
+model = LinearRegression()
+model.fit(xtr,ytr)
+
+r2 = model.score(xte,yte)
+r2
+
+ypred = model.predict(xte)
+ypred
+
+
+df.columns
+
+
+xval = ['X1 transaction date', 'X2 house age',
+       'X3 distance to the nearest MRT station',
+       'X4 number of convenience stores', 'X5 latitude', 'X6 longitude']
+
+import seaborn as sns
+for xv in xval:
+    sns.residplot(data=df, x=xv, y='Y house price of unit area')
+    plt.show()
+
+
+
+for xv in xval:
+    sns.scatterplot(data=df, x=xv, y='Y house price of unit area')
+    plt.show()
+
+
+for xv in xval:
+    model = LinearRegression()
+    model.fit(df[xv].values.reshape((-1,1)), df['Y house price of unit area'].values)
+    print(model.score(df[xv].values.reshape((-1,1)), df['Y house price of unit area'].values))
+
+
+
+
+#Feature Selection through PCA
+
+from sklearn.decomposition import PCA
+
+x = df.drop(['n', 'Y house price of unit area'], axis=1).values
+y = df['Y house price of unit area'].values
+x.shape
+y.shape
+
+pca = PCA(4)
+'''
+pca.fit(x, y)
+pca.explained_variance_
+x = pca.transform(x)
+pca.explained_variance_
+'''
+xp = pca.fit_transform(x,y)
+xp
+
+from sklearn.model_selection import train_test_split
+xtr, xte, ytr, yte = train_test_split(xp,y, test_size=0.3)
+xp.shape
+xtr.shape, ytr.shape, xte.shape, yte.shape
+
+from sklearn.linear_model import LinearRegression
+model = LinearRegression()
+model.fit(xtr,ytr)
+
+r2 = model.score(xte,yte)
+r2
+
+
+
+# Case MTcars
+
+from pydataset import data
+
+mt = data('mtcars')
+
+mt.columns
+
+mt.head(2)
+
+
+y = mt['mpg'].values
+x = mt.drop('mpg', axis=1).values
+
+
+xval = mt.drop('mpg',axis=1).columns
+
+
+import seaborn as sns
+for xv in xval:
+    sns.residplot(data=mt, x=xv, y='mpg')
+    plt.show()
+
+
+for xv in xval:
+    sns.scatterplot(data=mt, x=xv, y='mpg')
+    plt.show()
+
+
+from sklearn.linear_model import LinearRegression
+model = LinearRegression()
+model.fit(xtr,ytr)
+
+r2 = model.score(x,y)
+r2
+
+y
+xpred = np.array([  10.   , 321.   , 305.   ,   2.54 ,   3.07 ,  12.6  ,   1.   ,
+   1.   ,   7.   ,   6.   ]).reshape((1,-1))
+
+x.shape
+xpred.shape
+
+yp = model.predict(xpred)
+yp
+
+
+# DecisionTreeRegressor
+
+from sklearn.tree import DecisionTreeRegressor
+model = DecisionTreeRegressor()
+model.fit(xtr,ytr)
+r2 = model.score(x,y)
+r2
+
+#Randomforest Regressor
+
+
+from sklearn.ensemble import RandomForestRegressor
+model = RandomForestRegressor()
+model.fit(xtr,ytr)
+r2 = model.score(x,y)
+r2
+
+
+
+# Classification
+#Logistic Regression
+
+X= list(range(-6,7))
+X
+
+y = []
+
+import math
+
+for x in X:
+    y.append((1)/(1 + math.exp(-x)))
+y
+
+
+import matplotlib.pyplot as plt
+
+plt.scatter(X,y)
 
 
 
 
 
 
+import numpy as np
+x= np.array(list(range(-6,7,1))).reshape((-1,1))
+x
+x.shape
+
+y = np.array([0,0,0,0,1,1,0,0,1,1,1,1,1])
+y.shape
+
+plt.scatter(x,y)
+
+
+from sklearn.linear_model import LinearRegression
+
+model = LinearRegression()
+model.fit(x,y)
+
+yp = model.predict(x)
+
+plt.scatter(x,y)
+plt.scatter(x,yp)
 
 
 
+from sklearn.linear_model import LogisticRegression
+
+model = LogisticRegression()
+model.fit(x,y)
+yp = model.predict(x)
+
+plt.scatter(x,y)
+plt.scatter(x,yp)
+
+ypp = model.predict_proba(x)
+ypp.shape
+
+
+plt.scatter(x,y)
+plt.scatter(x,ypp[:,1])
+plt.scatter(x,yp)
+
+
+#Case Titanic
+
+'''
+y  = [1,1,1,0,1,0,1,1,1,0]
+yp = [1,1,1,0,1,0,1,1,1,0]
+
+
+TP = 1 - 1 Accepted
+TN = 0 - 0 Accepted
+FP = 0 - 1 Error
+FN = 1 - 0 Error
+
+y  = [1,0,1,0,1,0,1,0,1,0]
+yp = [1,0,0,1,1,0,1,0,1,0]
+from sklearn.metrics import classification_report
+
+print(classification_report(y,yp))
+
+
+y  = [1,0,1,1,1,1,1,1,1,0]
+yp = [1,1,1,1,1,1,1,1,1,1]
+
+print(classification_report(y,yp))
+
+y  = [0,0,0,0,0,0,0,0,0,0]
+yp = [1,1,1,1,1,1,1,1,1,1]
+print(classification_report(y,yp))
+
+'''
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+df = pd.read_csv('25_LogR/titanic.csv')
+df.columns
+
+x = df.drop('survived', axis=1).values
+y = df['survived'].values
+
+from sklearn.model_selection import train_test_split
+xtr, xte, ytr, yte = train_test_split(x,y, test_size=0.2)
+
+from sklearn.linear_model import LogisticRegression
+
+model = LogisticRegression()
+
+model.fit(xtr, ytr)
+yp = model.predict(xte)
+yp
+
+from sklearn.metrics import classification_report
+
+print(classification_report(yte,yp))
 
 
 
+#HR analytics Case
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+df = pd.read_csv('25_LogR/HRNum.csv')
+df.columns
+
+x = df.drop('Attrition', axis=1).values
+y = df['Attrition'].values
+
+from sklearn.model_selection import train_test_split
+xtr, xte, ytr, yte = train_test_split(x,y, test_size=0.2)
+
+from sklearn.linear_model import LogisticRegression
+
+model = LogisticRegression()
+
+model.fit(xtr, ytr)
+yp = model.predict(xte)
+yp
+
+from sklearn.metrics import classification_report
+
+print(classification_report(yte,yp))
 
 
 
+#Class Imbalancing
+
+df['Attrition'].value_counts()
 
 
+from imblearn.over_sampling import SMOTE
+oversample = SMOTE()
+xs, ys = oversample.fit_resample(x, y)
+
+pd.Series(ys).value_counts()
 
 
+from sklearn.model_selection import train_test_split
+xtr, xte, ytr, yte = train_test_split(xs,ys, test_size=0.2)
 
+from sklearn.linear_model import LogisticRegression
 
+model = LogisticRegression()
 
+model.fit(xtr, ytr)
+yp = model.predict(xte)
+yp
 
+from sklearn.metrics import classification_report
 
+print(classification_report(yte,yp))
 
 
 
