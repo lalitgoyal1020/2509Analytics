@@ -235,6 +235,8 @@ import datetime as dt
 PRESENT = dt.datetime(2011,12,10)
 data.columns
 
+data.groupby(['CustomerID']).aggregate({'InvoiceDate':max})
+
 rec = lambda date: (PRESENT - date.max()).days
 fre = lambda num: len(num)
 mon = lambda price: price.sum()
@@ -262,6 +264,466 @@ rfmAnalysis = rfm['rq'].astype(str) + rfm['fq'].astype(str) + rfm['mq'].astype(s
 rfmAnalysis.sort_values()
 
 rfmAnalysis[~(rfmAnalysis=='333')]
+
+rfmAnalysis[(rfmAnalysis=='331')]
+
+
+
+#Matplotlib
+
+import matplotlib.pyplot as plt
+
+Year = [1920,1930,1940,1950,1960,1970,1980,1990,2000,2010]
+Unemployment_Rate = [9.8,12,8,7.2,6.9,7,6.5,6.2,5.5,6.3]
+Unemployment_Rate1 = [1.8,2,8,4.2,6.0,7,3.5,5.2,7.5,5.3]
+Year
+Unemployment_Rate
+
+
+plt.plot(Year,Unemployment_Rate, color= 'g', marker='o', label='UR1')
+plt.plot(Year,Unemployment_Rate1, color = 'r', marker='<', label='UR2')
+plt.title('Year Vs UR', fontsize=14)
+plt.xlabel('Year', fontsize=14)
+plt.ylabel('UR', fontsize=14)
+plt.grid()
+plt.legend()
+plt.show()
+
+
+
+
+import pandas as pd
+Data = {'Year': [1920,1930,1940,1950,1960,1970,1980,1990,2000,2010], 'Unemployment_Rate': [9.8,12,8,7.2,6.9,7,6.5,6.2,5.5,6.3]}
+Data  
+df = pd.DataFrame(Data,columns=['Year','Unemployment_Rate'])
+df  
+plt.plot(df['Year'],df['Unemployment_Rate'], color= 'g', marker='o', label='UR1')
+plt.title('Year Vs UR', fontsize=14)
+plt.xlabel('Year', fontsize=14)
+plt.ylabel('UR', fontsize=14)
+plt.grid()
+plt.legend()
+plt.show()
+
+
+
+Country = ['USA','Canada','Germany','UK','France']
+GDP_Per_Capita = [45000,42000,52000,49000,47000]
+
+plt.bar(Country, GDP_Per_Capita)
+plt.title('Country Vs GDP Per Capita')
+plt.xlabel('Country')
+plt.ylabel('GDP Per Capita')
+plt.grid()
+plt.show()
+
+
+New_Colors = ['green','blue','purple','brown','teal']
+plt.bar(Country, GDP_Per_Capita, color=New_Colors)
+plt.title('Country Vs GDP Per Capita', fontsize=14)
+plt.xlabel('Country', fontsize=14)
+plt.ylabel('GDP Per Capita', fontsize=14)
+plt.grid(True)
+plt.show();
+
+
+nc = ['#1f4ea5', '#8ddca4', '#63326e', '#291711']
+plt.bar(Country, GDP_Per_Capita, color=nc)
+plt.title('Country Vs GDP Per Capita', fontsize=14)
+plt.xlabel('Country', fontsize=14)
+plt.ylabel('GDP Per Capita', fontsize=14)
+plt.grid(True)
+plt.show();
+
+
+#Scatter
+
+import numpy as np
+x = list(range(1,11))
+y = np.random.randint(10,20, size=10)
+
+x
+y
+
+plt.scatter(x,y)
+
+
+from pydataset import data
+mtcars = data('mtcars')
+mtcars.columns
+
+mt = mtcars[['mpg','hp', 'disp', 'gear']]
+mt
+
+plt.scatter(mt['hp'], mt['mpg'], s=mt['disp'])
+
+plt.scatter(mt['hp'], mt['mpg'], s=mt['disp'], c = mt['gear'])
+
+mtcars.head(1)
+
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+sns.set() #default settings
+tips_df = sns.load_dataset('tips')
+tips_df
+tips_df.columns
+tips_df.total_bill
+total_bill = tips_df.total_bill.to_numpy()
+tip = tips_df.tip.to_numpy()
+tip
+plt.scatter(total_bill, tip)
+plt.show();
+
+plt.scatter(total_bill, tip)
+plt.title(label='Total Bill vs Tip')
+plt.xlabel('Total Bill')
+plt.ylabel('Tip')
+plt.show();
+
+
+
+
+
+
+sc = plt.scatter(mt['hp'], mt['mpg'], sizes=mt['disp'])
+handles, labels = sc.legend_elements(prop='sizes')
+plt.legend(handles, labels)
+plt.show();
+
+
+
+
+mtcars
+scatter = plt.scatter('wt', 'mpg', s='hp', data=mtcars)
+handles, labels = scatter.legend_elements(prop='sizes')
+plt.xlabel('wt')
+plt.ylabel('mpg')
+plt.legend(handles, labels)
+plt.show();
+
+
+
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(nrows = 2)
+
+ax[0].scatter(mtcars['wt'],mtcars['disp'])
+ax[1].scatter(mtcars['wt'],mtcars['mpg'])
+
+
+
+fig, ax = plt.subplots(nrows = 2)
+
+ax[0].scatter(mtcars['wt'],mtcars['disp'])
+ax[1].plot(mtcars['wt'],mtcars['mpg'])
+
+
+
+fig, ax = plt.subplots(ncols=2)
+ax[0].scatter(mtcars['wt'],mtcars['disp'])
+ax[1].scatter(mtcars['wt'],mtcars['mpg'])
+
+
+fig, ax = plt.subplots(nrows=2,ncols=2)
+ax.shape
+ax[0,0].scatter(mtcars['wt'],mtcars['disp'])
+ax[0,1].scatter(mtcars['wt'],mtcars['mpg'])
+ax[1,0].scatter(mtcars['wt'],mtcars['disp'])
+ax[1,1].scatter(mtcars['wt'],mtcars['mpg'])
+
+
+
+import matplotlib.pyplot as plt
+
+SMALL_SIZE = 12
+MEDIUM_SIZE = 14
+BIGGER_SIZE = 16
+
+plt.rc('font', size=SMALL_SIZE)          # controls default text sizes
+plt.rc('axes', titlesize=SMALL_SIZE)     # fontsize of the axes title
+plt.rc('axes', labelsize=MEDIUM_SIZE)    # fontsize of the x and y labels
+plt.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
+plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
+plt.rc('legend', fontsize=SMALL_SIZE)    # legend fontsize
+plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
+
+
+
+# Histogram
+
+
+import pandas as pd
+import numpy as mp
+import matplotlib.pyplot as plt
+
+data1 = np.random.normal(100, 10, 100000)
+
+data1
+
+np.max(data1)
+np.min(data1)
+
+np.mean(data1)
+np.median(data1)
+np.std(data1)
+
+l1 = [9,3,2,4,6,5,1,8,7]
+
+np.mean(l1)
+np.median(l1)
+
+plt.hist(data1)
+
+
+
+data2 = np.random.randint(50,150, 100000)
+plt.hist(data2)
+
+
+data3 = np.random.binomial(2, .8, 100)
+plt.hist(data3)
+
+'''
+data3 = np.random.multinomial(2, [0.3, 0.7])
+plt.hist(data3)
+'''
+
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+data = np.random.randint(1,100, size=1000)
+plt.boxplot(data)
+np.mean(data), np.median(data), np.std(data), min(data), max(data), 
+plt.hist(data)
+
+
+data = np.random.normal(50,30, size=1000)
+plt.boxplot(data)
+data
+np.mean(data), np.median(data), np.std(data), min(data), max(data), 
+plt.hist(data)
+
+
+
+
+import matplotlib.pyplot as plt
+labels = ['Male',  'Female']
+percentages = [60, 40]
+explode=(0.15,0)
+#
+
+color_palette_list = ['#f600cc', '#ADD8E6', '#63D1F4', '#0EBFE9', '#C1F0F6', '#0099CC']
+
+fig, ax = plt.subplots(dpi=300)
+ax.pie(percentages, explode=explode, labels=labels, colors= color_palette_list, autopct='%0.2f%%',  shadow=True, startangle=90,  pctdistance=1.2, labeldistance=1.6)
+ax.axis('equal')
+ax.set_title("Distribution of Gender in Class", y=1)
+ax.legend(frameon=False, bbox_to_anchor=(0.2,0.8))
+plt.show()
+
+
+
+#Regression
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+y = np.random.normal(1, 11, size=10)
+y
+x = np.arange(1,11)
+x
+x.shape
+
+x = x.reshape((-1,1))
+x
+x.shape
+plt.scatter(x,y)
+
+from sklearn.linear_model import LinearRegression
+
+model = LinearRegression()
+model.fit(x,y)
+
+slope = model.coef_
+intercept = model.intercept_
+intercept
+
+ypred  = model.predict(x)
+
+plt.scatter(x,y)
+plt.scatter(x,ypred)
+plt.plot(x,ypred)
+
+r2 = model.score(x,y)
+r2
+
+
+
+
+model = LinearRegression()
+model.fit(x[:-2],y[:-2])
+
+slope = model.coef_
+intercept = model.intercept_
+intercept
+
+ypred  = model.predict(x[:-2])
+
+plt.scatter(x[:-2],y[:-2])
+plt.scatter(x[:-2],ypred)
+plt.plot(x[:-2],ypred)
+
+r2 = model.score(x[:-2],y[:-2])
+r2
+
+
+
+#Case Housing
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+df = pd.read_csv('24_LR//Housing.csv')
+df =df.dropna()
+df.columns
+
+x = df['area'].values.reshape((-1,1))
+y = df['price'].values
+x.shape
+y.shape
+
+from sklearn.linear_model import LinearRegression
+model = LinearRegression()
+model.fit(x,y)
+
+r2 = model.score(x,y)
+r2
+
+ypred = model.predict(x)
+
+plt.scatter(x,y)
+plt.scatter(x,ypred)
+
+r = np.linspace(min(y), max(y), 10)
+r
+
+plt.boxplot(y)
+plt.yticks(r)
+
+val = 0.87*10000000
+
+len(y)
+len(y[y<val])
+
+plt.boxplot(y[y<val])
+
+
+
+# Outlier Removed Case Housing
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+df = pd.read_csv('24_LR//Housing.csv')
+df =df.dropna()
+df.columns
+val = 0.87*10000000
+df = df[df['price']<val]
+
+x = df['area'].values.reshape((-1,1))
+y = df['price'].values
+
+plt.boxplot(y)
+
+
+x.shape
+y.shape
+
+from sklearn.linear_model import LinearRegression
+model = LinearRegression()
+model.fit(x,y)
+
+r2 = model.score(x,y)
+r2
+
+ypred = model.predict(x)
+
+plt.scatter(x,y)
+plt.scatter(x,ypred)
+
+
+
+
+# Data Split
+
+from sklearn.model_selection import train_test_split
+
+xtr, xte, ytr, yte = train_test_split(x,y, test_size=0.3)
+
+x.shape
+xtr.shape, ytr.shape, xte.shape, yte.shape
+
+from sklearn.linear_model import LinearRegression
+model = LinearRegression()
+model.fit(xtr,ytr)
+
+r2 = model.score(xte,yte)
+r2
+
+ypred = model.predict(xte)
+
+plt.scatter(xtr,ytr)
+plt.scatter(xte,yte)
+plt.scatter(xte,ypred)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
